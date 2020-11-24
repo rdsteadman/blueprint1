@@ -8,19 +8,22 @@ import { Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
 
 //export const UserMenu (props) => (
 
+
+//export default class UserMenu extends Component {
+
 export default class UserMenu extends Component {
 
 	render() {
 		return (
 			<Menu>
-				<MenuItem text="New" icon="document" />
+				<MenuItem text="Edit Profile" icon="cog" />
 				<MenuItem text="Open" icon="folder-shared" />
 				<MenuItem text="Close" icon="add-to-folder" />
 				<MenuDivider />
 				<MenuItem text="Save" icon="floppy-disk" />
 				<MenuItem text="Save as..." icon="floppy-disk" />
 				<MenuDivider />
-				<MenuItem text="Exit" icon="cross" />
+				<MenuItem text="Logout" icon="log-out" />
 			</Menu>
 		);
 	}

@@ -13,7 +13,7 @@ function App() {
     <BrowserRouter>
       <div className="wrapper">
         <Header />
-        <div className="body" style={{ margin: "10px" }}>
+        <div className="body" style={{ margin: "10px", paddingTop: "10px"}} >
           <Body />
           <Lorem />
         </div>
