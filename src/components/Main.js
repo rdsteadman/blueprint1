@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import ChordSheetJS from 'chordsheetjs';
-import Lorem from './Lorem';
 
 export default class Main extends Component {
 
@@ -10,24 +9,9 @@ export default class Main extends Component {
 		this.state = { value: 'Type your annotation here.' };
 	}
 
-	handleChange(e) {
-		this.setState({ value: e.target.value });
-	}
-
-	getChordMarkup() {
-		var formatter = new ChordSheetJS.HtmlDivFormatter(), //.HtmlFormatter()
-			parser = new ChordSheetJS.ChordProParser(),
-			song = parser.parse(this.state.value);
-
-		return { __html: formatter.format(song) };
-	}
-
 	render() {
 		return (
-			<div className="chord-editor" style={{ margin: "5px" }}>
-				<div className="panel">
-					[Tree component]
-				</div>
+			<div className="chord-editor"> {/* style={{ margin: "5px" }} */}
 				<div className="panel">
 					<h3>Input</h3>
 					<textarea
@@ -45,4 +29,18 @@ export default class Main extends Component {
 			</div>
 		);
 	}
+	
+	handleChange(e) {
+		this.setState({ value: e.target.value });
+	}
+
+	getChordMarkup() {
+		var formatter = new ChordSheetJS.HtmlDivFormatter(), //.HtmlFormatter()
+			parser = new ChordSheetJS.ChordProParser(),
+			song = parser.parse(this.state.value);
+
+		return { __html: formatter.format(song) };
+	}
+
+
 }

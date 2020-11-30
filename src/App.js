@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import HomePage from './components/pages/HomePage';
 import Header from './components/Header';
 import Body from './components/Body';
 import Footer from './components/Footer';
@@ -7,19 +8,31 @@ import SongList from './components/SongList';
 import { BrowserRouter, Route } from 'react-router-dom';
 import ChordEditor from 'chordsheetjs';
 import Lorem from './components/Lorem';
+import NavTree from './components/NavTree';
+import LoginPage from './components/pages/LoginPage';
+
+
 
 function App() {
   return (
-    <BrowserRouter>
+      <div className="wrapper">
+        <Route path="/" exact component={HomePage} />
+        <Route path="/login" exact component={LoginPage} />
+      </div>
+
+  );
+}
+
+function App_old4() {
+  return (
       <div className="wrapper">
         <Header />
-        <div className="body" style={{ margin: "10px", paddingTop: "10px"}} >
+        <div className="body chord-editor" style={{ marginTop: "10px", paddingTop: "10px"}} >
+          <NavTree/>
           <Body />
-          <Lorem />
         </div>
-        <Footer />
+        {/*<Footer />*/}
       </div>
-    </BrowserRouter>
 
   );
 }

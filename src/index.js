@@ -5,10 +5,25 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'normalize.css/normalize.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
+import { BrowserRouter } from 'react-router-dom';
+import { createStore, applyMiddleware } from 'redux'; // thunk middleware
+import { Provider } from 'react-redux'; // connect react and redux
+import thunk from 'redux-thunk'; // to use "thunks"
+import rootReducer from './rootReducer';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+const store = createStore(
+  rootReducer, // the whole tree / state object
+  composeWithDevTools(applyMiddleware(thunk))
+);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

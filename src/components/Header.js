@@ -16,6 +16,7 @@ import {
 	Switch,
 } from "@blueprintjs/core";
 import labelbridgeLogo from '../assets/labelbridge_logo_sm2.png';
+import { Colors } from "@blueprintjs/core";
 
 export default class Header extends Component {
 
@@ -23,20 +24,28 @@ export default class Header extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { vertical: false };
+		this.toggleTheme = this.toggleTheme.bind(this);
+		this.state = {
+			vertical: false,
+			lightTheme: true
+		};
 	}
 
+	toggleTheme() {
+		this.setState({ lightTheme: !this.state.lightTheme });
+		//document.getElementById("headerDiv").className = isLightTheme ? "bp3-light" : "bp3.dark";
+	}
 
 	render() {
 		return (
-			<div className="bp3-dark" id="headerDiv">
+			<div className={this.state.lightTheme ? "bp3-light" : "bp3-dark"} id="headerDiv">
 				<Navbar fixedToTop >
 					<NavbarGroup align="left">
 						<NavbarHeading><span style={{ fontSize: "17px", verticalAlign: "20%" }} >Labelbridge</span> <img src={labelbridgeLogo} alt="logo" style={{ marginTop: "2px" }} /></NavbarHeading>
 						<input className="bp3-input" placeholder="Search ..." type="text" />
 					</NavbarGroup>
 					<NavbarGroup align="right">
-						<NavbarHeading><span>Role: </span>&nbsp;<span style={{ color: "yellow" }}>Admin</span></NavbarHeading>
+						<NavbarHeading><span>Role: </span>&nbsp;<span style={{ color: this.state.lightTheme ? Colors.TURQUOISE2 : Colors.TURQUOISE5 }}>Admin</span></NavbarHeading>
 						<span className="bp3-navbar-divider"></span>
 						{this.renderUserButton("admin", "user")}
 						<Button className={Classes.MINIMAL} icon="help" text="Help" />
@@ -63,7 +72,7 @@ export default class Header extends Component {
 		//const rightIconName = vertical ? "caret-right" : "caret-down";
 		const position = vertical ? Position.RIGHT_TOP : Position.BOTTOM_LEFT;
 		return (
-			<Popover content={<MainMenu />} position={position} minimal>
+			<Popover content={<MainMenu lightTheme={this.state.lightTheme} toggleTheme={this.toggleTheme}/>} position={position} minimal>
 				<Button icon={iconName} text={text} />
 			</Popover>
 		);
