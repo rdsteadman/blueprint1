@@ -131,7 +131,19 @@ Using nodejs server to do authentication... json token authentication(?)
 https://github.com/Remchi/bookworm-react
 
 
-So first he mentiones using Redux, "A Predictable State Container for JS Apps".
+-------------------------------------------------------------------------------------------------
+
+So first he mentiones using Redux, which uses "thunks" to perform asynchronous actions.
+
+"Some people like to store everything in Redux, I'm not one of them.... especially with forms...
+only when I really need it... because most of the time we don't need to store the form data,
+only when we submit it. ... Onlu when I need super cool and smart form."
+
+Form: has state. We use a "data" object within that.
+
+
+
+ ... Redux, "A Predictable State Container for JS Apps".
 
 https://redux.js.org/introduction/getting-started
 https://react-redux.js.org/introduction/quick-start
@@ -275,7 +287,108 @@ Wrap the App with the store Provider, so it is available to the application:
 
 [Cool - it works - see screenshot: redux-dev-chrome.PNG]
 
+"Now we have redux, which means we have actions and can dispatch them".
 
+
+
+--------------------------------
+
+Ok, backing up a bit now, to review the environmental things Rem is using in his tutorial
+series. (his setup and editor looks really cool!).
+
+He seems to be using a Mac, with a unix-like command line.
+
+He also uses "Sublime text" editor, which he starts like "s ." on the command line(!).
+
+There is a version for windows... I'll check it out!
+https://www.sublimetext.com/
+
+BTW, VSCode is also in your PATH, you can edit files with "code filename", or just "code"
+to start the editor. Once you install sblime, it can be launched with "subl".
+
+Cool. Now "subl ." in the C:\mydocs\React\test\blueprint1 directory opens the folder
+in Sublime editor.
+
+https://www.infoworld.com/article/3440105/visual-studio-code-vs-sublime-text-how-to-choose.html
+
+I recommend installing both Visual Studio Code and Sublime Text and also adding both of their command-line utilities, code and subl, to your path. There is no real downside to having both products installed.
+
+Over the course of a month, try alternating between the two products as you open programming projects until you understand the characteristics of both programs, then allow yourself to pick one or the other depending on what you plan to do. Also add plug-ins as needed for the programming languages you use, being as lazy as possible about deferring the plug-in installations.
+
+What I found in my own work was that I picked Visual Studio Code for almost any session that would involve debugging or refactoring or that would take longer than about 10 minutes. And I picked Sublime Text for what I expected would be quick edits. Your mileage may vary, of course, and your preferences may change over time.
+
+--------------------------------------
+
+NEXT: First this he does in the new project is the Eslint setup
+
+Eslint setup:
+
+https://thesoreon.com/blog/how-to-set-up-eslint-with-typescript-in-vs-code
+
+Rem uses this:
+
+yarn add --dev eslint prettier eslint-config-airbnb@^15.01 eslint-config-prettier eslint-plugin-prettier eslint-plugin-react eslint-plugin-import eslint-plugin-jsx-a11y@^5.1.1
+
+NOTE: He does this in the specific directory of the project (bookwork-react).
+
+I removed the two specific versions for now (his video is a couple years old), and ran:
+
+C:\mydocs\React\test\blueprint1>yarn add --dev eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-plugin-react eslint-plugin-import
+
+The VSCode Eslint setup page above suggests this:
+
+npm i -D eslint eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-standard
+
+NOTE: This is done in the top-level code directory: "This is the directory in which I want to configure ESLint. Any subdirectories within this one will also use the configuration we are about to set up. This works because, when you run ESLint, it looks in the current directory for a configuration; If it can’t find one, it moves up to the parent directory, checks there, and the process repeats until a configuration is found."
+
+So I added: yarn add --dev eslint-config-standard eslint-plugin-node eslint-plugin-promise eslint-plugin-standard
+
+Rem makes an .eslintrc file, but the webpage mentions:
+
+Now create .eslintrc.js with the following contents:
+
+module.exports = {
+  "extends": "standard"
+};
+
+I will try Rem's way first and see if that works:
+
+{
+  "extends": ["standard", "prettier"],
+  "plugins": ["prettier"]
+}
+
+Seemed to work ok!
+
+Now, "If you open up any .js file in any sub-directory of C:\users\travis\code (or wherever you installed the configuration), ESLint will check your code against the Standard JavaScript Style and warn you of any conflicts."
+
+Also adds "lint": "eslint src" to package.json (scripts section).
+
+Then you can `yarn run lint`
+
+Works! (Lots of "errors", especially things defined but never used... leave for now because this is purely a testing/prototype app.)
+
+--------------------------
+
+Well, it's not entirely working. It doesn't recognize the jsx stuff.
+
+Boy, now it's preventing the thing from compiling altogether!
+
+    "lint": "eslint src"
+  
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+
+
+--------------------------
+
+Next: Add prop-types to allow us to define types for properties (without using Typescript).
+
+`yarn add prop-types`
 
 
 

@@ -1,16 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Main2 from './Main2';
-import Lorem from './Lorem';
 
-export default class Body extends Component {
+export default class Body extends React.Component {
 	render() {
 		return (
 			<div className="panel2 mainPage">
 				<Main2></Main2>
-				{/*<Lorem/>*/}
+				{/* <Lorem/> */}
 			</div>
 		)
 	}
 }
 
-				//<Tree></Tree>

@@ -1,17 +1,15 @@
-//import { IProps, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
-import React, { Component } from "react";
+// import { IProps, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
+import React from "react";
 import { Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
 
-//export interface IFileMenuProps extends IProps {
+// export interface IFileMenuProps extends IProps {
 //    shouldDismissPopover?: boolean;
-//}
+// }
 
-//export const UserMenu (props) => (
+// export const UserMenu (props) => (
 
 
-//export default class UserMenu extends Component {
-
-export default class UserMenu extends Component {
+export default class UserMenu extends React.Component {
 
 	render() {
 		return (
@@ -29,7 +27,7 @@ export default class UserMenu extends Component {
 	}
 }
 
-/*render() {
+/* render() {
 	return (
 <Menu className={props.className}>
 	<MenuItem text="New" icon="document" {...props} />
@@ -42,4 +40,4 @@ export default class UserMenu extends Component {
 	<MenuItem text="Exit" icon="cross" {...props} />
 </Menu>
 	);
-}*/
+} */
