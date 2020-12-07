@@ -390,6 +390,279 @@ Next: Add prop-types to allow us to define types for properties (without using T
 
 `yarn add prop-types`
 
+--------------------------
+(tutorial step 2)
+https://youtu.be/RCPMuJ0zYak?list=PLuNEz8XtB51KthRFiVtI8cmXNL9qlQJ5U
+
+Review Redux setup.
+
+In Redux tab in bottom of Chrome, we can see the state, with an empty user object:
+
+	user(pin): { }
+
+"So now we have Redux, and that means we can have actions and dispatch them.
+...
+So in the submit function, we want to to this data and dispatch a thunk action
+with this data.
+...
+In the props, we'll have the login thunk action (props.login(data)), and it will
+return a promise. And if everything's ok then we want to redirect to the homepage.
+...
+To redirect, we have .then(), and to redirect we'l use the history, which is passed
+to this component by react router, because it is a page component (that is, because
+it is defined as a route component (LoginPage)) in App.js."
+
+So putting that together, we end up with:
+
+	`this.props.login(data).then( () => this.props.history.push("/") );`
+
+"So history is provided by router, and login will be provided once we connect this
+component to Redux."
+
+NOTE: He uses a lot of snippets to save typing. E.g., "ipt" becomes: import PropTypes from 'prop-types';
+
+So next, add the history and login PropTypes to the LoginPage.
+
+"So now we need to connect this component [login page] with Redux. And for that we use
+connect function from react-redux. And at the bottom we connect our login page [with
+the export declaration]". Like this:
+
+	`export default connect()(LoginPage);`
+
+The first parameter of connect is something to do with props, that allows us to pass
+some data from state. But we don't need that here. The second is for dispatch.
+
+"So we just provide functions that we want to wrap in our dispatch call. So we'll have login here...
+but not to call directly, but to dipatch...":
+
+	`export default connect(null, { login })(LoginPage);`
+
+"So we're going to store all our actions in one folder, and all our reducers in another folder."
+
+So make actions/auth.js file.
+
+"So here we define our thunk action... which is just a function that returns another
+function... we'll define a login function that equals a function that takes credentials
+and it returns another function and inside of it we'll make our API request [async request to server]
+and all our requests we'll store in one API object... the request to our API is very simple."
+
+"So here we're going to have some kind of API object, user login, that we're going to create,
+we pass credentials in. It will return promise [i.e., then() (?) - need to read up on JS "promise"]
+..."
+
+I'm a little mystified at this auth.js, but this is what it looks like:
+
+	export const login = (credentials) => () =>
+		api.user.login(credentials).then(res => res.data.user);
+
+"This is the template we're going to use throughout the application, throughout almost all
+API requests. So we'll have API request [api.user.login(credentials)] that returns promise,
+and then we get the data from this request and then we pass it along to the next action
+[then(res => res.data.user)].
+
+"[But] I prefer to do it this way. To dispatch a regular pure redux action:
+
+	export const login = (credentials) => (dispatch) =>
+		api.user.login(credentials).then(user => dispatch(userLoggedIn(user)));
+
+"So this is the most thing that we're going to do with thunk actions. This is what most of
+my thunk actions look like. I make API rquest, then I get data, then I dispatch a redux action
+that you change by reducers the redux store."
+
+"I use past tense for redux actions, so 'userLoggedIn'. Another way is 'userLoginSuccess',
+but that implies a failure state as well, but we're handling that all in the componenet."
+
+Now the API will use axios to do the API call.
+
+`yarn add axios`
+
+axios: "Promise based HTTP client for the browser and node.js"
+https://www.npmjs.com/package/axios
+
+Make XMLHttpRequests from the browser
+Make http requests from node.js
+Supports the Promise API
+Intercept request and response
+Transform request and response data
+Cancel requests
+Automatic transforms for JSON data
+Client side support for protecting against XSRF
+
+"Axios is an excellent library. You can use [...?] or any other kind of library that makes
+your life easier, but axios is perfect, give it a try."
+
+...
+
+Now we need to make the real user "reducer" (we made a dummy one earlier), to place the
+user in the state.
+
+https://css-tricks.com/understanding-how-reducers-are-used-in-redux/ :
+
+A reducer is a function that determines changes to an application’s state. It uses the action it receives to determine this change. We have tools, like Redux (a state manager), that help manage an application’s state changes in a single store so that they behave consistently.
+
+Redux relies heavily on reducer functions that take the previous state and an action in order to execute the next state.
+
+If the application’s state is managed by Redux, the changes happen inside a reducer function — this is the only place where state changes happen.
+
+Also see: https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers
+
+-----------------------------
+
+OK! It's working (video #2, 19:21). We can see the request to auth returning 404 in the Network tab.
+
+Can even see the "paylod": credentials: {email: "richard.steadman@gmail.com", password: "safsdaff"}
+
+------------------------------------
+
+"So now we need to build our node backend server application, and we'll use the
+express framework to do that."
+
+Make a new folder, bookwork-api and in there do yarn-init. (accept all the defaults)
+
+Make an index.js in src, and make a node server using express.
+
+Add scripts -> start to package.json, and make it run "node src/index.js". But node only knows
+old javascrips (not ES6/ES7), so it causes an error on yarn start:
+
+`yarn start`...
+SyntaxError: Cannot use import statement outside a module
+
+So we need to use babel to compile the JS to old-style JS.
+
+`yarn add --dev babel-cli`
+
+Also need babel-preset-env ("allow us to use any ES6/ES7 in our code...")
+
+`yarn add --dev babel-preset-env`
+
+Now we need a balelrc file.
+
+	"presets": ["env"]
+
+And now in package.json, use "babel-node" instead of 'node'
+
+Now, it's working, cause we get a new error, which shows it's reading the file:
+
+	Error: Cannot find module 'express'
+
+So, of course, `yarn add express`
+
+Yay!
+
+	C:\mydocs\React\test\bookworm-api>yarn start
+	yarn run v1.22.5
+	$ babel-node src/index.js
+	Running on localhost:8080
+
+Now, goto http://localhost:8080 ...
+
+	Error: ENOENT: no such file or directory, stat 'C:\mydocs\React\test\bookworm-api\src\index.html'
+
+good!
+
+Need to create index.html in source.
+
+WOW! Just type "ht", and select HTML 5 for a snippet.
+
+Now, if we make any changes, we need to restart the server manually, but that's a pain,
+so `yarn add --dev nodemon` which will restart the server every time we change files.
+
+Now in package.json, we use nodemon -exec babel-node
+
+Now:
+
+$ nodemon --exec babel-node -- src/index.js
+[nodemon] 2.0.6
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `babel-node src/index.js`
+Running on localhost:8080
+
+cool
+
+Now we need to add a route in the server for the API call.
+
+Now it's still 404, cause it's on a different port. But we can add a proxy in package.json
+(I'm not sure how that works...)
+
+  "proxy": "http://localhost:8080"
+
+But it does! We can see the error.
+
+Next is to display the error to the user.
+
+We can catch the error almost anywhere, but it's convenient to catch it in the login form.
+
+So, try in onSubmit.
+
+	this.props.submit(this.state.data)
+			.catch(err =>
+				this.setState({ errors: err.response.data.errors, loading: false })
+			);
+
+So now when something goes wrong, errors from the server will be written to the state.
+
+Now, I got an error when doing this, and needed a try/catch block instead. (WHY?)
+
+	try {
+		this.props.submit(this.state.data);
+	}
+	catch (err) {
+		this.setState({ errors: err.response.data.errors, loading: false });
+	}
+
+	//this.props.submit(this.state.data)
+	//	.catch(err =>
+	//		this.setState({ errors: err.response.data.errors, loading: false })
+	//	);
+
+But now we don't seem to be catching the error at all...
+
+OMG. This in LoginPage was the difference:
+
+	submit = (data) =>
+		//console.log(data);
+		// This calls login in auth.js/
+		this.props.login(data).then(() => this.props.history.push("/"));
+
+I had braces around the thing to allow the extra console.log. (Why doesn't that work?)
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+
+Likewise, if the body requires additional lines of processing, you'll need to re-introduce brackets PLUS the "return".
+
+Hah! So this works:
+
+	submit = (data) => {
+		//console.log(data);
+		// This calls login in auth.js/
+		return this.props.login(data).then(() => this.props.history.push("/"));
+	}
+
+Good! (Or as Rem would say, "Nice!")
+
+TODO: Make a nicer message box (like Rem uses with Semantic UI)
+
+------------------------
+
+So now we add loading state (for a spinner).
+
+SemanticUI has this build right into its form, but BlueprintJS doesn't seem to have the
+same thing. So I made one with <Spinner/> and an if/else.
+
+Some form examples (to check other blueprint forms):
+https://stackblitz.com/edit/blueprint-ui-sample
+
+------------------------
+
+Last part is manuall adding the the server app to git. Skip for now (?)
+Or maybe see how it's done manually...
+
+Yes:
+
+- Make .gitignote
+- In Command Panel, git initialize; select bookworm-api.
 
 
 

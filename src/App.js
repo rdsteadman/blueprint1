@@ -3,6 +3,7 @@ import './App.css';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import { Route } from 'react-router-dom';
+import { connect } from "react-redux";
 
 
 function App() {
@@ -80,4 +81,11 @@ function App_old() {
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: !!state.user.email
+  };
+}
+
+//export default App;
+export default connect(mapStateToProps)(App);

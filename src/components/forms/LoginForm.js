@@ -1,4 +1,4 @@
-import { Button, Callout, FormGroup, InputGroup, Intent } from "@blueprintjs/core";
+import { Spinner, Button, Callout, FormGroup, InputGroup, Intent } from "@blueprintjs/core";
 import React from "react";
 import validator from "validator";
 import InlineError from "../messages/InlineError";
@@ -21,25 +21,34 @@ class LoginForm extends React.Component {
 		// Make some state object available more directly
 		const { data, errors, loading } = this.state;
 
-		return (
-			<form id="loginForm" onSubmit={this.onSubmit}>
-				<FormGroup label="E-mail" >
-					<InputGroup asyncControl="true" name="email" type="email" size="30" id="email"
-						placeholder="example@example.com" intent={!!errors.email ? "danger" : Intent.NONE}
-						onChange={this.onChange} />{/* value={data.email}*/}
-					{errors.email && <Callout icon="warning-sign" intent="warning">{errors.email}</Callout>}
-				</FormGroup>
-				<FormGroup label="Password">
-					<InputGroup type="password" name="password" size="30" id="password" placeholder=""
-						intent="primary" onChange={this.onChange} /> {/* value={data.password}*/}
-					{errors.password && <Callout icon="warning-sign"><InlineError text={errors.password} /></Callout>}
-				</FormGroup>
-				<div>
-					<Button type="submit" text="Login" intent={Intent.SUCCESS} />
-				</div>
+		if (loading) {
+			return (
+				<Spinner />
+			)
+		}
+		else {
+			return (
+				<form id="loginForm" onSubmit={this.onSubmit} loading={loading}>
+					{ errors.global && <div>Something went wrong: {errors.global}</div>}
 
-			</form >
-		);
+					<FormGroup label="E-mail" >
+						<InputGroup asyncControl="true" name="email" type="email" size="30" id="email"
+							placeholder="example@example.com" intent={!!errors.email ? "danger" : Intent.NONE}
+							onChange={this.onChange} />{/* value={data.email}*/}
+						{errors.email && <Callout icon="warning-sign" intent="warning">{errors.email}</Callout>}
+					</FormGroup>
+					<FormGroup label="Password">
+						<InputGroup type="password" name="password" size="30" id="password" placeholder=""
+							intent="primary" onChange={this.onChange} /> {/* value={data.password}*/}
+						{errors.password && <Callout icon="warning-sign"><InlineError text={errors.password} /></Callout>}
+					</FormGroup>
+					<div>
+						<Button type="submit" text="Login" intent={Intent.SUCCESS} />
+					</div>
+
+				</form >
+			);
+		}
 	}
 
 	// This will work for all text fields
@@ -52,7 +61,7 @@ class LoginForm extends React.Component {
 
 	onSubmit = (e) => {
 		e.preventDefault(); // Don't actually submit the form in the usual way (POST) - we're handling it with JS/React.
-		console.log("email: " + this.state.data.email);
+		//console.log("email: " + this.state.data.email);
 		//console.log("test: " + this.state.test);
 		const errors = this.validate(this.state.data);
 		//alert("error keys: " + Object.keys(errors));
@@ -60,12 +69,18 @@ class LoginForm extends React.Component {
 		if (Object.keys(errors).length === 0) {
 			this.setState({ loading: true });
 
-			this.props
-				.submit(this.state.data);
+			/*try {
+				this.props.submit(this.state.data);
+			}
+			catch (err) {
+				console.log("submit error: " + err.response.data.errors);
+				this.setState({ errors: err.response.data.errors, loading: false });
+			}*/
 
-			//.catch(err =>
-			//	this.setState({ errors: err.response.data.errors, loading: false })
-			//);
+			this.props.submit(this.state.data)
+				.catch(err =>
+					this.setState({ errors: err.response.data.errors, loading: false })
+				);
 		}
 	};
 
@@ -85,3 +100,4 @@ LoginForm.propTypes = {
 };
 
 export default LoginForm;
+

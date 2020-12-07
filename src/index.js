@@ -12,14 +12,16 @@ import thunk from 'redux-thunk'; // to use "thunks"
 import rootReducer from './rootReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+// Create the Redux store
 const store = createStore(
   rootReducer, // the whole tree / state object
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk)) // let's us use Redux dev tools (in Chrome etc.)
 );
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+      { /* Redux "provider" to give the application the Redux state store */}
       <Provider store={store}>
         <App />
       </Provider>
