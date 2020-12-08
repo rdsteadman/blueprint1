@@ -510,7 +510,7 @@ Also see: https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reduc
 
 OK! It's working (video #2, 19:21). We can see the request to auth returning 404 in the Network tab.
 
-Can even see the "paylod": credentials: {email: "richard.steadman@gmail.com", password: "safsdaff"}
+Can even see the "payload": credentials: {email: "richard.steadman@gmail.com", password: "safsdaff"}
 
 ------------------------------------
 
@@ -535,7 +535,7 @@ Also need babel-preset-env ("allow us to use any ES6/ES7 in our code...")
 
 `yarn add --dev babel-preset-env`
 
-Now we need a balelrc file.
+Now we need a babelrc file.
 
 	"presets": ["env"]
 
@@ -656,13 +656,53 @@ https://stackblitz.com/edit/blueprint-ui-sample
 
 ------------------------
 
-Last part is manuall adding the the server app to git. Skip for now (?)
+Last part is manually adding the the server app to git. Skip for now (?)
 Or maybe see how it's done manually...
 
 Yes:
 
 - Make .gitignote
 - In Command Panel, git initialize; select bookworm-api.
+- In Command Panel, git commit
+
+-------------------------
+
+On to part 3: Doing the real authentication:
+https://youtu.be/1IWzMuJKv6o?list=PLuNEz8XtB51KthRFiVtI8cmXNL9qlQJ5U
+
+"Focus on back end code to implement user authentication..."
+
+If ok, we send a json authentication token.
+
+Fisrt he sets up eslint, for the server side, but I'll skip that since I had trouble getting
+it to work well on the client side (errors would prevent it from running... maybe?)
+[TODO: Try to get eslint working properly...]
+
+"We're going to use mongoose to communicate with the database (MongoDB)."
+
+So install MongoDB fisrt.
+
+"MongoDB is a cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas."
+
+MongoDB has a Community edition, but the latest version required Windows 10. So I installed it on rich-tc
+for now...
+
+The Mongo UI client opens; connect to:
+mongodb://localhost:27017
+
+Ah, needed to add rich-tc to the config filoe port binding....
+
+Now, carrying on with the tutorial... need to install Express body-parser.
+
+`yarn add body-parser`
+
+Now we add some Mongo models for user in auth.js
+
+
+
+
+
+
 
 
 

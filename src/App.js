@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
+import PrototypePage from './components/pages/PrototypePage';
 import { Route } from 'react-router-dom';
 import { connect } from "react-redux";
 
@@ -11,6 +12,7 @@ function App() {
     <div className="wrapper">
       <Route path="/" exact component={HomePage} />
       <Route path="/login" exact component={LoginPage} />
+      <Route path="/prototype" exact component={PrototypePage} />
     </div>
 
   );
