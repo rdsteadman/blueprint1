@@ -28,8 +28,8 @@ class LoginForm extends React.Component {
 		}
 		else {
 			return (
-				<form id="loginForm" onSubmit={this.onSubmit} loading={loading}>
-					{ errors.global && <div>Something went wrong: {errors.global}</div>}
+				<form id="loginForm" onSubmit={this.onSubmit}> {/* loading={loading}*/}
+					{ errors.global && <Callout icon="warning-sign"><InlineError text={"Something went wrong: "} /><InlineError text={errors.global} /></Callout>}
 
 					<FormGroup label="E-mail" >
 						<InputGroup asyncControl="true" name="email" type="email" size="30" id="email"
@@ -53,7 +53,7 @@ class LoginForm extends React.Component {
 
 	// This will work for all text fields
 	onChange = e => {
-		console.log("setting state: " + e.target.name + ": " + e.target.value);
+		//console.log("setting state: " + e.target.name + ": " + e.target.value);
 		this.setState({
 			data: { ...this.state.data, [e.target.name]: e.target.value }
 		});
@@ -64,7 +64,7 @@ class LoginForm extends React.Component {
 		//console.log("email: " + this.state.data.email);
 		//console.log("test: " + this.state.test);
 		const errors = this.validate(this.state.data);
-		//alert("error keys: " + Object.keys(errors));
+
 		this.setState({ errors });
 		if (Object.keys(errors).length === 0) {
 			this.setState({ loading: true });

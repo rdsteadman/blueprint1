@@ -698,12 +698,106 @@ Now, carrying on with the tutorial... need to install Express body-parser.
 
 Now we add some Mongo models for user in auth.js
 
+-----------------------------
 
+Good, now it's working except for not having the actual data in the database.
 
+We'll use BCrypt to hash the password.
 
+`yarn add bcrypt` (to API project)
 
+He says he also has it installed globally, so look into that idea too... [TODO]
 
+Now he does a neat thing: run "node" to get an interactive JS session. Then make JS:
 
+'''
+	// old-style JS ("require", etc)
+	var bcrypt = require('bcrypt');
+	bcrypt.hashSync('12345', 10)
+	
+	'$2b$10$NIFA/nl7Xxo1lAEPDYcne.UKQawQ6s4A6awPwULUfRnGS3WESnYbW'
+'''
 
+Now go to mongo... just type 'mongo'
+
+[added to path, and also ran mongod to start the DB ... need to install as a service]
+
+Now:
+
+`use bookworm`
+
+`db.users.insert({email: "richard.steadman@gmail.com", passwordHash: "$2b$10$NIFA/nl7Xxo1lAEPDYcne.UKQawQ6s4A6awPwULUfRnGS3WESnYbW"})`
+
+> db.users.insert({email: "richard.steadman@gmail.com", passwordHash: "$2b$10$NI
+FA/nl7Xxo1lAEPDYcne.UKQawQ6s4A6awPwULUfRnGS3WESnYbW"})
+WriteResult({ "nInserted" : 1 })
+>
+
+> db.users.find({})
+{ "_id" : ObjectId("5fd16106711ec73db406d8fa"), "email" : "richard.steadman@gmai
+l.com", "passwordHash" : "$2b$10$NIFA/nl7Xxo1lAEPDYcne.UKQawQ6s4A6awPwULUfRnGS3W
+ESnYbW" }
+>
+
+Now in auth.js:
+
+		if (user) {
+			//res.status(400).json({ errors: { global: "invalid credentials" } })
+			res.json({ success: true });
+		}
+
+And we can see it find it in the Network tab in the browser info!
+
+Now we need to actually check the password. In auth.js, add 
+
+In the user model, define a new method, with:
+
+	schema.methods.isValidPassword() = function isValidPassword(password) {
+		return bcrypt.compareSync(password, this.passwordHash)
+	}
+
+This will be called for the user object with the matching e-mail (already found).
+
+----------------------
+
+Next: Need to add json web token to the user info (in addition to e-mail).
+
+`yarn add jsonwebtoken` (in API)
+
+In our model, need to add another method (models/user.js).
+
+... done!
+
+---------------------------
+
+Now, we need to remove some hard-coding (DB URL, secretkey). To do that we use dotenv.
+
+`yarn add dotenv`
+
+Then in index.js, `dotenv.congig();`, and make a .env file.
+
+So now we can store anything that is dependant on the environment, in the .env file.
+
+-----------------------------
+
+Now Rem uses "bluebird" promise library to get rid of a deprecation, but I don't see
+the deprecation here. So I'm skipping that for now.
+
+Here are the current deprecations when running the server:
+
+(node:6524) DeprecationWarning: current URL string parser is deprecated, and wil
+l be removed in a future version. To use the new parser, pass option { useNewUrl
+Parser: true } to MongoClient.connect.
+(node:6524) DeprecationWarning: current Server Discovery and Monitoring engine i
+s deprecated, and will be removed in a future version. To use the new Server Dis
+cover and Monitoring engine, pass option { useUnifiedTopology: true } to the Mon
+goClient constructor.
+Running on localhost:8088
+(node:6524) DeprecationWarning: collection.ensureIndex is deprecated. Use create
+Indexes instead.
+
+So I did #1 and #2, and it worked (in index.js):
+
+	mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 

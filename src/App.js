@@ -5,6 +5,7 @@ import LoginPage from './components/pages/LoginPage';
 import PrototypePage from './components/pages/PrototypePage';
 import { Route } from 'react-router-dom';
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 
 
 function App() {
@@ -14,7 +15,6 @@ function App() {
       <Route path="/login" exact component={LoginPage} />
       <Route path="/prototype" exact component={PrototypePage} />
     </div>
-
   );
 }
 
@@ -82,6 +82,15 @@ function App_old() {
     </div>
   );
 }
+
+
+//  App.propTypes = {
+//    /*location: PropTypes.shape({
+//      pathname: PropTypes.string.isRequired
+//    }).isRequired,*/
+//    isAuthenticated: PropTypes.bool.isRequired
+//  };
+
 
 function mapStateToProps(state) {
   return {

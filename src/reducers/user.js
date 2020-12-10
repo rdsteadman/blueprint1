@@ -19,7 +19,8 @@ const initialState = {
 
 // state defaults to initialState, action to an object with an action type and payload.
 export default (state = initialState, action = { actionType, payload }) => {
-	switch (action.actionType) {
+	//export default (state = {}, action = {}) => {
+	switch (action.type) {
 
 		case USER_LOGGED_IN:
 			//return { ...state, ...payload }

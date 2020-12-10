@@ -41,7 +41,7 @@ export default class Header extends Component {
 			<div className={this.state.lightTheme ? "bp3-light" : "bp3-dark"} id="headerDiv">
 				<Navbar fixedToTop >
 					<NavbarGroup align="left">
-						<NavbarHeading><span style={{ fontSize: "17px", verticalAlign: "20%" }} >Labelbridge</span> <img src={labelbridgeLogo} alt="logo" style={{ marginTop: "2px" }} /></NavbarHeading>
+						<NavbarHeading><Link to="/"><span style={{ fontSize: "17px", verticalAlign: "20%" }} >Labelbridge</span> <img src={labelbridgeLogo} alt="logo" style={{ marginTop: "2px" }} /></Link></NavbarHeading>
 						<input className="bp3-input" placeholder="Search ..." type="text" />
 					</NavbarGroup>
 					<NavbarGroup align="right">
@@ -72,7 +72,7 @@ export default class Header extends Component {
 		//const rightIconName = vertical ? "caret-right" : "caret-down";
 		const position = vertical ? Position.RIGHT_TOP : Position.BOTTOM_LEFT;
 		return (
-			<Popover content={<MainMenu lightTheme={this.state.lightTheme} toggleTheme={this.toggleTheme}/>} position={position} minimal>
+			<Popover content={<MainMenu lightTheme={this.state.lightTheme} toggleTheme={this.toggleTheme} />} position={position} minimal>
 				<Button icon={iconName} text={text} />
 			</Popover>
 		);
