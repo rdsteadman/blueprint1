@@ -1,18 +1,44 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-export default class HomePage extends Component {
-	render() {
-		return (
-			<div className="homePage">
-				<h1>Test pages</h1>
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Button, Intent } from "@blueprintjs/core";
+import { logout } from '../../actions/auth'
 
-				{ /*<p>Not much here yet, but here is a link to the login page:</p> */}
-				{ /*<br /><br /> */}
-				<ul>
-					<li>Login page: <Link to="/login">Login</Link></li>
-					<li>Prototype page: <Link to="/prototype">Prototype UI</Link></li>
-				</ul>
-			</div>
-		)
-	}
+
+// The component takes props, but instead of using (props) then props.isAuthenticaed in the function,
+// I deconstruct it here
+const HomePage = ({ isAuthenticated, logout }) => (
+	<div className="homePage">
+		<h1>Test pages</h1>
+
+		{ /*<p>Not much here yet, but here is a link to the login page:</p> */}
+		{ /*<br /><br /> */}
+		<ul>
+			{!isAuthenticated && <li>Login page: <Link to="/login">Login</Link></li>}
+			<li>Prototype page: <Link to="/prototype">Prototype UI</Link></li>
+		</ul>
+
+		{isAuthenticated && <Button type="button" text="Logout" intent={Intent.PRIMARY} onClick={() => logout()} /> /* <button>Logout</button> */}
+	</div>
+)
+
+//class HomePage extends Component {
+//	render() {
+//	}
+//}
+
+HomePage.propTypes = {
+	isAuthenticated: PropTypes.bool.isRequired,
+	logout: PropTypes.func.isRequired,
 }
+
+function mapStateToProps(state) {
+	return {
+		//isAuthenticated: !!state.user.email
+		isAuthenticated: !!state.user.token
+
+	};
+}
+
+export default connect(mapStateToProps, { logout })(HomePage);

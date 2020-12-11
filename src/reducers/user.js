@@ -9,9 +9,9 @@
 // The reducer function makes use of the initial state of the application and something
 // called action, to determine what the new state will look like.
 
-import { USER_LOGGED_IN } from "../types"
+import { USER_LOGGED_IN, USER_LOGGED_OUT } from "../types"
 
-// In VS Code (addon), there is a snippet: rxreducer (type rx and you'll see it)
+// In VS Code (addon), there is a snippet: rxreducer (type rx and you'll see it) for Redux Reducer
 
 const initialState = {
 
@@ -24,10 +24,17 @@ export default (state = initialState, action = { actionType, payload }) => {
 
 		case USER_LOGGED_IN:
 			//return { ...state, ...payload }
+			// Add the user to the state
 			return action.user;
+
+		case USER_LOGGED_OUT:
+			// Make the state empty again (remove the user)
+			return {};
 
 		default:
 			return state
 	}
 }
+
+
 

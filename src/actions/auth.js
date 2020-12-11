@@ -1,4 +1,4 @@
-import { USER_LOGGED_IN } from '../types';
+import { USER_LOGGED_IN, USER_LOGGED_OUT } from '../types';
 import api from '../components/api';
 
 export const userLoggedIn = (user) => ({
@@ -6,10 +6,24 @@ export const userLoggedIn = (user) => ({
 	user
 })
 
+export const userLoggedOut = () => ({
+	type: USER_LOGGED_OUT,
+})
+
+// Login "thunk" action
 // This makes an API request using axios (in api.js)
 // We get the user object from it with e-mail and authentication token
 export const login = (credentials) => (dispatch) =>
-	api.user.login(credentials).then(user => dispatch(userLoggedIn(user)));
+	api.user.login(credentials).then(user => {
+		localStorage.bookwormJWT = user.token;
+		dispatch(userLoggedIn(user));
+	});
+
+// Logout "thunk" action
+export const logout = () => (dispatch) => {
+	localStorage.removeItem('bookwormJWT');
+	dispatch(userLoggedOut());
+};
 
 
 //export const login = (credentials) => () =>

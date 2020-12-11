@@ -800,4 +800,71 @@ So I did #1 and #2, and it worked (in index.js):
 
 	mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
+Now add this to index.js to get rid of the last one:
+
+	mongoose.set('useCreateIndex', true);
+
+(https://github.com/Automattic/mongoose/issues/6890)
+
+Oh! Might as well do it the same way:
+
+	mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+
+-------------------------
+
+Next: Add a logout.
+
+So we need to connect the home page (component) (with the login link) to Redux, so it can check
+the application (Redux) state (if the user is logged in).
+
+So we use this:
+
+export default connect(mapStateToProps)(HomePage);
+
+mapStateToProps sets up the state for the page.
+
+Now we can display a button to logout if we're authenticated.
+
+But if you reload, the whole app is reinitialized, so we need a way to keep the state.
+
+We can do this with local storage.
+
+MDN: Window.localStorage:
+
+The read-only localStorage property allows you to access a Storage object for the Document's origin; the stored data is saved across browser sessions. localStorage is similar to sessionStorage, except that while data stored in localStorage has no expiration time, data stored in sessionStorage gets cleared when the page session ends — that is, when the page is closed. (Data in a localStorage object created in a "private browsing" or "incognito" session is cleared when the last "private" tab is closed.)
+
+[NOTE: There's some idea that putting the authentication token in local storage is not a good idea in the commnents...]
+
+So in our auth action, in addition to dispatching, we need to save the token in local storage:
+
+	export const login = (credentials) => (dispatch) =>
+		api.user.login(credentials).then(user => {
+			localStorage.bookwormJWT = user.token;
+			dispatch(userLoggedIn(user));
+		});
+
+And we'll use it in our index.js file. If the token exists in local storage, we want to "dispatch"
+the user logged in action, but for that we have to have some kind of a user record that we want to
+write into it. We can actually decode the token to get the e-mail, but we don't need it right now
+so we'll skip it.
+
+	if (localStorage.bookwormJWT) {
+		const user = { token: localStorage.bookwormJWT };
+		store.dispatch(userLoggedIn(user));
+	}
+
+Now we need to implement the logout functionality, which just means getting rid of the user record (and
+token in the local storage).
+
+Later we might want to make a notification to server that the user logged out, for logging etc.
+
+So we make a logout action, and add it to the connect() state Redux method for the HomePage.
+When the button is clicked we dispatch the logout thunk action (in auth.js):
+
+export default connect(mapStateToProps, { logout })(HomePage);
+
+
+
+
+
 

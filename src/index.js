@@ -11,12 +11,19 @@ import { Provider } from 'react-redux'; // connect react and redux
 import thunk from 'redux-thunk'; // to use "thunks"
 import rootReducer from './rootReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { userLoggedIn } from './actions/auth';
 
 // Create the Redux store
 const store = createStore(
   rootReducer, // the whole tree / state object
   composeWithDevTools(applyMiddleware(thunk)) // let's us use Redux dev tools (in Chrome etc.)
 );
+
+if (localStorage.bookwormJWT) {
+  console.log("There's a token in local storage: " + localStorage.bookwormJWT)
+  const user = { token: localStorage.bookwormJWT };
+  store.dispatch(userLoggedIn(user));
+}
 
 ReactDOM.render(
   <React.StrictMode>
