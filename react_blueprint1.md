@@ -863,6 +863,66 @@ When the button is clicked we dispatch the logout thunk action (in auth.js):
 
 export default connect(mapStateToProps, { logout })(HomePage);
 
+-------------------------------------------------------
+
+Next video (#4): https://youtu.be/c4nO5DHQj0k
+
+Next we create authorized routes.
+
+First Make a dashboard page. If the user hasn't confirmed their e-mail (new Redux state "isConfirmed"),
+show a message about it.
+
+So we need to connect Redux to the dashboard page (with mapStateToProps):
+
+	DashboardPage.propTypes = {
+		isConfirmed: PropTypes.bool.isRequired,
+		//logout: PropTypes.func.isRequired,
+	}
+
+	function mapStateToProps(state) {
+		return {
+			//isAuthenticated: !!state.user.email
+			isConfirmed: !!state.user.confirmed
+		};
+	}
+
+	export default connect(mapStateToProps)(DashboardPage);
+
+Now, any user can see the dashboard page. But we want only authorized (logged in) users
+to do so. So we need to create authorized routes.
+
+Routes in React-router are just another "component" ("that's the genius behind all of it").
+So we can create a higher-order component based on it.
+
+Ok, no. We make a UserRoute component instead.
+
+This is a "higher-order component", which takes everything we pass to Route. It looks like this:
+
+	const UserRoute = ({ component: Component, ...rest }) => (
+		<Route {...rest} render={props => <Component {...props} />} />
+	)
+
+"So basically what we did right now is we created a higher-order component, and we just
+do absolutely the same as just a simple component does. So nothing has changed."
+
+So then we need to connect our route to Redux store to see if it's authticated.
+
+If it is, we render the component. If not, then we redirect.
+
+Now we add another route, GuestRoute, very similar.
+
+So only guest users should have access to the login route.
+
+Then there's a bunch of stuff about how it doesn't work properly due to some bugs,
+and needing to pass "location" in all the routes. But it seems to be working properly
+now here. (at around 13:00 of video 4 if you need to add it later).
+
+Great! Commit.
+
+-------------------------
+
+
+
 
 
 

@@ -29,7 +29,7 @@ class LoginForm extends React.Component {
 		else {
 			return (
 				<form id="loginForm" onSubmit={this.onSubmit}> {/* loading={loading}*/}
-					{ errors.global && <Callout icon="warning-sign"><InlineError text={"Something went wrong: "} /><InlineError text={errors.global} /></Callout>}
+					{ errors.global && <Callout icon="warning-sign" intent="warning"><InlineError text={"Something went wrong: "} /><InlineError text={errors.global} /></Callout>}
 
 					<FormGroup label="E-mail" >
 						<InputGroup asyncControl="true" name="email" type="email" size="30" id="email"
