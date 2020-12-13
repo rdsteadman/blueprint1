@@ -921,6 +921,26 @@ Great! Commit.
 
 -------------------------
 
+Next step is to create the Sign-up page.
+
+We're going to do basically the same as login page.
+
+We'll have Route which points to Page, that page will render a Form with client-side
+validation, it will make an asynchronous request to the server, render the server
+error messages, and if everything is ok it will redirect somewhere.
+
+So the page is very similar to the login page. It has a submit function, that takes
+data, and invokes a "thunk action". Then ("then()") if everything's ok, it will
+push (redirect) to the dashboard using the history.
+
+Since forms have a lot in common (onChange, onSubmit, etc.), you could extract to
+a higher order component, but I usually don't. Because very often forms become
+more complex, and you need different behavior.
+
+So now we have the form, and next we need to define the signup action and the reducer.
+
+
+
 
 
 

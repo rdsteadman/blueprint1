@@ -25,6 +25,12 @@ export const logout = () => (dispatch) => {
 	dispatch(userLoggedOut());
 };
 
+export const signup = (data) => (dispatch) =>
+	api.user.signup(data).then(user => {
+		localStorage.bookwormJWT = user.token;
+		dispatch(userLoggedIn(user));
+	});
+
 
 //export const login = (credentials) => () =>
 //	api.user.login(credentials).then(res => res.data.user);

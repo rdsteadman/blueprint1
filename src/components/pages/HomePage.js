@@ -16,6 +16,7 @@ const HomePage = ({ isAuthenticated, logout }) => (
 		{ /*<br /><br /> */}
 		<ul>
 			{!isAuthenticated && <li>Login page: <Link to="/login">Login</Link></li>}
+			{!isAuthenticated && <li>Sign-up page: <Link to="/signup">Sign Up</Link></li>}
 			<li>Prototype page: <Link to="/prototype">Prototype UI</Link></li>
 		</ul>
 

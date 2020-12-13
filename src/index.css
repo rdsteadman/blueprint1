@@ -31,7 +31,7 @@ code {
   /*border: solid 1px;*/
 }
 
-.loginPage, .homePage {
+.loginPage, .homePage, .signupPage {
   margin-top: 5px;
   margin-left: 10px;
   margin-right: 10px;
