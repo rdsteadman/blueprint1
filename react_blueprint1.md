@@ -939,6 +939,83 @@ more complex, and you need different behavior.
 
 So now we have the form, and next we need to define the signup action and the reducer.
 
+Next need to update the backend code to handle the signup API request.
+
+So we'' end up making a new route, users.js. What do we want to do here? 
+
+"We want to create a new user model. So let's get email and passowrd from request.body.credentials"
+So in routes/users.js:
+
+	router.post('/', (req, res) => {
+		const { email, passowrd } = req.body.user;
+	...
+
+Now we want to make a new user object:
+
+We just need to make sure it's unique. For uniqueness, we need to install another plugin for
+mogoose...
+
+ `yarn add mongoose-unique-validator`
+
+ Now in our model (User), we're going to validate that the added e-mail is unique, using
+ the 'mongoose-unique-validator':
+
+ `import uniqueValidator from 'mongoose-unique-validator';`
+
+ ...
+
+ schema.plugin(uniqueValidator, { message: 'This e-mail is not unqiqe' });
+
+Now when we submit the same email, we get:
+
+err: {errors: {email: {name: "ValidatorError", message: "This e-mail is not unqiqe",…}},…}
+
+There are more errors than we need, so we're going to add a utillty to parse them.
+
+It will also use the "lodash" library: Lodash and Underscore are great modern JavaScript utility
+libraries, and they are widely used by Front-end developers.
+
+https://en.wikipedia.org/wiki/Lodash
+Lodash is a JavaScript library which provides utility functions for common programming tasks using
+the functional programming paradigm.
+
+Lodash draws most of its ideas from Underscore.js and now receives maintenance from the original
+contributors to Underscore.js.
+
+Lodash is a JavaScript library that helps programmers write more concise and maintainable JavaScript.
+
+It can be broken down into several main areas:
+
+Utilities - for simplifying common programming tasks such as determining type as well as simplifying math operations.
+Function - simplifying binding, decorating, constraining, throttling, debouncing, currying, and changing the pointer.
+String - conversion functions for performing basic string operations, such as trimming, converting to uppercase, camel case, etc.
+Array - creating, splitting, combining, modifying, and compressing
+Collection - iterating, sorting, filtering, splitting, and building
+Object - accessing, extending, merging, defaults, and transforming
+Seq - chaining, wrapping, filtering, and testing.
+
+Now in mongoDB, we can see the new user created:
+
+> db.users.find({})
+{ "_id" : ObjectId("5fd16106711ec73db406d8fa"), "email" : "richard.steadman@gmai
+l.com", "passwordHash" : "$2b$10$NIFA/nl7Xxo1lAEPDYcne.UKQawQ6s4A6awPwULUfRnGS3W
+ESnYbW" }
+{ "_id" : ObjectId("5fd7a8a1a989aa20d8edd309"), "confirmed" : false, "email" : "
+test@gmail.com", "passwordHash" : "$2b$10$hP3.zGfMVTO4RltDfypH6ei.2y48zION1vR06Q
+lUr2k/KHBsiSEkm", "createdAt" : ISODate("2020-12-14T18:02:09.294Z"), "updatedAt"
+ : ISODate("2020-12-14T18:02:09.294Z"), "__v" : 0 }
+
+-------------------------------------
+
+Next session (#5): send confirmation e-mail.
+
+
+
+
+
+
+
+
 
 
 
