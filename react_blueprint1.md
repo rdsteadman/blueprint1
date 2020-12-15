@@ -1009,6 +1009,30 @@ lUr2k/KHBsiSEkm", "createdAt" : ISODate("2020-12-14T18:02:09.294Z"), "updatedAt"
 
 Next session (#5): send confirmation e-mail.
 
+So back in our User model (MongoDB schema) we're going to add a confirmationToken.
+
+We want to generate it when the user signs up and save it in the DB.
+
+We'll reuse the same method that generates the Json web token (encrypting the e-mail).
+
+Now we need to send an e-mail with a link that included this confirmation token.
+
+We'll use NodeMailer to send the mail.
+
+For a mail server, he uses mailtrap.io ("Safe Email Testing for Staging & Development")
+[looks a little out of datea maybe?]
+
+[signed up - r.s@gmail.com/b*p]
+
+`yarn add nodemailer`
+
+Install MongoDB Compass (UI for MongoDB). Use mongodb://localhost to connect.
+
+Hmmm - sending the e-mail is not working. Catching an error, but there are no
+details.
+
+Also: add logout button to dashboard page.
+
 
 
 
