@@ -15,9 +15,12 @@ const HomePage = ({ isAuthenticated, logout }) => (
 		{ /*<p>Not much here yet, but here is a link to the login page:</p> */}
 		{ /*<br /><br /> */}
 		<ul>
-			{!isAuthenticated && <li>Login page: <Link to="/login">Login</Link></li>}
 			{!isAuthenticated && <li>Sign-up page: <Link to="/signup">Sign Up</Link></li>}
+			{!isAuthenticated && <li>Login page: <Link to="/login">Login</Link></li>}
 			<li>Prototype page: <Link to="/prototype">Prototype UI</Link></li>
+			<li>Dashboard page: <Link to="/dashboard">Dashboard</Link></li>
+			<li>Version page: <Link to="/version">Version</Link></li>
+			<li>Blueprint test page: <Link to="/bptest1">Blueprint test</Link></li>
 		</ul>
 
 		{isAuthenticated && <Button type="button" text="Logout" intent={Intent.PRIMARY} onClick={() => logout()} /> /* <button>Logout</button> */}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Classes, Icon, Intent, ITreeNode, Position, Tooltip, Tree } from "@blueprintjs/core";
-//import { Example, IExampleProps } from "@blueprintjs/docs-theme";
+import PropTypes from 'prop-types';
 
 
 export default class NavTree extends Component {
@@ -38,6 +38,7 @@ export default class NavTree extends Component {
 		}
 		nodeData.isSelected = originallySelected == null ? true : !originallySelected;
 		this.setState(this.state);
+		this.props.history.push("/version");
 	};
 
 	handleNodeCollapse = (nodeData) => {
@@ -61,6 +62,7 @@ export default class NavTree extends Component {
 		}
 	}
 }
+
 
 /* tslint:disable:object-literal-sort-keys so childNodes can come last */
 const INITIAL_STATE = [
@@ -147,7 +149,7 @@ const INITIAL_STATE = [
 								icon: <Icon icon="tag" intent={Intent.PRIMARY} className={Classes.TREE_NODE_ICON} />,
 								label: "Organic meditation gluten-free sriracha",
 							},
-										],
+						],
 					},
 					{ id: 5, label: "No-Icon Item" },
 					{ id: 6, icon: "tag", label: "Item 1" },
@@ -192,3 +194,23 @@ const INITIAL_STATE = [
 /* tslint:enable:object-literal-sort-keys */
 
 // className="navTree"
+
+NavTree.propTypes = {
+	history: PropTypes.shape({
+		// We don't need to define the whole history object with all its properties, just what we will use.
+		push: PropTypes.func.isRequired
+	}).isRequired,
+	//logout: PropTypes.func.isRequired
+}
+
+/*
+function mapStateToProps(state) {
+	return {
+		//isAuthenticated: !!state.user.token
+		isConfirmed: !!state.user.confirmed,
+	};
+}
+
+
+export default connect(mapStateToProps, { logout })(UserMenu);
+*/

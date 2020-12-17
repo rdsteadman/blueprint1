@@ -1020,7 +1020,7 @@ Now we need to send an e-mail with a link that included this confirmation token.
 We'll use NodeMailer to send the mail.
 
 For a mail server, he uses mailtrap.io ("Safe Email Testing for Staging & Development")
-[looks a little out of datea maybe?]
+[looks a little out of date maybe?]
 
 [signed up - r.s@gmail.com/b*p]
 
@@ -1031,7 +1031,51 @@ Install MongoDB Compass (UI for MongoDB). Use mongodb://localhost to connect.
 Hmmm - sending the e-mail is not working. Catching an error, but there are no
 details.
 
-Also: add logout button to dashboard page.
+Also: add logout button to dashboard page, and a link to the Prototype UI
+
+Next add the confirmation page [DELAYED... 12:00 of video 5]
+
+Next he shows how to decryt the JWT token (to check whether the user has confirmed
+their e-mail). I skipped that one for now, but will still do this to get the actual
+e-mail anyway.
+
+`yarn add jwt-decode`
+
+Next he suggests some homework to improve the confirmation page (error messages from
+server, resend e-mail, etc. [TODO])
+
+--------------------------
+
+[video 6]
+
+Next: Reset password (may skip this too) ... some interesting things.
+
+...
+
+Someone asked if you have to define prop types. No, but you should, it provides
+basic type checking for your components to make sure you're invoking them properly,
+and it also provides good documentation about what the component is expecting.
+
+NOTE: The reset password page (around 19:00) shows how to deal with parameters
+to the page, and to make a server call on load (when the component is "mounted").
+
+It uses the built-in component method "componentDidMount()"
+
+--------------------------
+
+Video 7 (Navigation bar)
+https://youtu.be/UEF4EUVm4e0
+
+- already did this one.
+
+--------------------------
+
+Now adding some more components:
+
+https://react-bootstrap.github.io/components/overlays/
+
+
+
 
 
 

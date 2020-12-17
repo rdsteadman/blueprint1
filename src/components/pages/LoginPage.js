@@ -10,7 +10,7 @@ class LoginPage extends Component {
 	submit = (data) => {
 		//console.log(data);
 		// This calls login in auth.js/
-		return this.props.login(data).then(() => this.props.history.push("/dashboard"));
+		return this.props.login(data).then(() => this.props.history.push("/prototype"));
 	}
 
 	render() {

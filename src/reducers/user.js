@@ -32,7 +32,7 @@ export default (state = initialState, action = { actionType, payload }) => {
 			return {};
 
 		default:
-			return state
+			return state;
 	}
 }
 

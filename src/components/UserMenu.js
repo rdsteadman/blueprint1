@@ -1,15 +1,17 @@
-// import { IProps, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
 import React from "react";
 import { Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
-
-// export interface IFileMenuProps extends IProps {
-//    shouldDismissPopover?: boolean;
-// }
-
-// export const UserMenu (props) => (
+import { connect } from 'react-redux';
+import { logout } from '../actions/auth'
+import PropTypes from 'prop-types';
 
 
-export default class UserMenu extends React.Component {
+class UserMenu extends React.Component {
+
+	doLogout() {
+		//this.props.logout().then(() => this.props.history.push("/")); //() => console.log("hi")
+		this.props.logout();
+		this.props.history.push("/login");
+	}
 
 	render() {
 		return (
@@ -21,7 +23,7 @@ export default class UserMenu extends React.Component {
 				<MenuItem text="Save" icon="floppy-disk" />
 				<MenuItem text="Save as..." icon="floppy-disk" />
 				<MenuDivider />
-				<MenuItem text="Logout" icon="log-out" />
+				<MenuItem text="Logout" icon="log-out" onClick={() => this.doLogout()} /> {/* () => this.props.logout() */}
 			</Menu>
 		);
 	}
@@ -41,3 +43,23 @@ export default class UserMenu extends React.Component {
 </Menu>
 	);
 } */
+
+UserMenu.propTypes = {
+	history: PropTypes.shape({
+		// We don't need to define the whole history object with all its properties, just what we will use.
+		push: PropTypes.func.isRequired
+	}).isRequired,
+	logout: PropTypes.func.isRequired
+}
+
+
+function mapStateToProps(state) {
+	return {
+		//isAuthenticated: !!state.user.token
+		isConfirmed: !!state.user.confirmed,
+	};
+}
+
+//export default UserMenu;
+export default connect(mapStateToProps, { logout })(UserMenu);
+

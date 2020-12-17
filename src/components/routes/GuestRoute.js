@@ -9,7 +9,7 @@ const GuestRoute = ({ isAuthenticated, component: Component, ...rest }) => (
 
 GuestRoute.propTypes = {
 	isAuthenticated: PropTypes.bool.isRequired,
-	component: PropTypes.func.isRequired,
+	component: PropTypes.object.isRequired, //.func
 }
 
 function mapStateToProps(state) {

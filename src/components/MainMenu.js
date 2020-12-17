@@ -6,26 +6,26 @@ export default class MainMenu extends Component {
 	constructor(props) {
 		super(props);
 		//this.toggleTheme = this.toggleTheme.bind(this);
-		let lightTheme = props.lightTheme === false ? false : true; // default to true
+		const lightTheme = props.lightTheme === false ? false : true; // default to true
 		this.state = {
-			 lightTheme: lightTheme,
-			 //setLightTheme: props.setLightTheme
-			 toggleTheme: props.toggleTheme
+			lightTheme: lightTheme,
+			//setLightTheme: props.setLightTheme
+			toggleTheme: props.toggleTheme
 		};
 	}
 
 	render() {
 		return (
-			<Menu>
-				<MenuItem text="Home" icon="home" />
+			<Menu > {/* onClick={() => { }} */}
+				<MenuItem text="Home" icon="home" href='/' /> {/* this.props.history.push('/') window.location = '/'*/}
 
-				<MenuItem text={this.state.lightTheme ? "Dark theme" : "Light theme"} icon="" onClick={this.state.toggleTheme} /> {/*() => this.state.toggleTheme()*/}
+				<MenuItem text={this.state.lightTheme ? "Dark theme" : "Light theme"} icon="" onClick={this.state.toggleTheme} />
 				<MenuDivider />
 				<MenuItem text="System Administration" icon="cog" />
 				<MenuItem text="Manage Users" icon="user" />
 				<MenuItem text="Update Code Lists" icon="numbered-list" />
 				<MenuDivider />
-				<MenuItem text="About Labelbridge..." icon="help" />
+				<MenuItem text="About Labelbridge..." icon="help" onClick={() => this.props.aboutOpen()} />
 			</Menu>
 		);
 	}

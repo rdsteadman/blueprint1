@@ -12,6 +12,7 @@ import thunk from 'redux-thunk'; // to use "thunks"
 import rootReducer from './rootReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { userLoggedIn } from './actions/auth';
+import jwt_decode from 'jwt-decode';
 
 // Create the Redux store
 const store = createStore(
@@ -21,7 +22,8 @@ const store = createStore(
 
 if (localStorage.bookwormJWT) {
   console.log("There's a token in local storage: " + localStorage.bookwormJWT)
-  const user = { token: localStorage.bookwormJWT };
+  const payload = jwt_decode(localStorage.bookwormJWT);
+  const user = { token: localStorage.bookwormJWT, email: payload.email }; // later paylod.confirmed
   store.dispatch(userLoggedIn(user));
 }
 

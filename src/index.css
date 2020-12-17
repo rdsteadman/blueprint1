@@ -19,6 +19,22 @@ code {
     monospace;
 }
 
+.paraSpacing {
+  margin-top: 10px;
+}
+
+.pageMargins {
+  margin-top: 5px;
+  margin-left: 15px;
+  margin-right: 10px;
+}
+
+.welcomePanel {
+  margin-top: 5px;
+  margin-left: 15px;
+  margin-right: 10px;
+}
+
 .navTree {
   /*border: solid 1px;*/
   padding-top: 5px;
@@ -33,7 +49,7 @@ code {
 
 .loginPage, .homePage, .signupPage, .dashboardPage {
   margin-top: 5px;
-  margin-left: 10px;
+  margin-left: 20px;
   margin-right: 10px;
   /*border: solid 1px;*/
 }
@@ -50,7 +66,7 @@ code {
   flex-direction: column;
 }
 .panel2 {
-  flex: 2;
+  flex: 3;
   margin: 5px;
   display: flex;
   flex-direction: column;

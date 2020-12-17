@@ -13,6 +13,9 @@ const DashboardPage = ({ isConfirmed, logout }) => (
 		<div style={{ marginTop: 10 + 'px' }} >
 			Prototype page: <Link to="/prototype">Prototype UI</Link></div>
 
+		<div className="paraSpacing" >
+			Homepage: <Link to="/">Home</Link></div>
+
 		<div style={{ marginTop: 10 + 'px' }} >
 			<Button type="button" text="Logout" intent={Intent.PRIMARY} onClick={() => logout()} /></div>
 
@@ -22,7 +25,6 @@ const DashboardPage = ({ isConfirmed, logout }) => (
 
 DashboardPage.propTypes = {
 	isConfirmed: PropTypes.bool.isRequired,
-	//logout: PropTypes.func.isRequired,
 	logout: PropTypes.func.isRequired,
 }
 

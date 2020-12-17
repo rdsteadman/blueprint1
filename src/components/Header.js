@@ -14,9 +14,17 @@ import {
 	Popover,
 	Position,
 	Switch,
+	Overlay,
+	Intent
 } from "@blueprintjs/core";
 import labelbridgeLogo from '../assets/labelbridge_logo_sm2.png';
 import { Colors } from "@blueprintjs/core";
+import About from './about';
+import classNames from 'classnames';
+import { DARK } from '@blueprintjs/core/lib/esm/common/classes';
+
+const OVERLAY_EXAMPLE_CLASS = "docs-overlay-example-transition";
+const OVERLAY_TALL_CLASS = "docs-overlay-example-tall";
 
 export default class Header extends Component {
 
@@ -27,13 +35,10 @@ export default class Header extends Component {
 		this.toggleTheme = this.toggleTheme.bind(this);
 		this.state = {
 			vertical: false,
-			lightTheme: true
+			lightTheme: false,
+			isAboutOpen: false,
+			useTallContent: false
 		};
-	}
-
-	toggleTheme() {
-		this.setState({ lightTheme: !this.state.lightTheme });
-		//document.getElementById("headerDiv").className = isLightTheme ? "bp3-light" : "bp3.dark";
 	}
 
 	render() {
@@ -47,32 +52,67 @@ export default class Header extends Component {
 					<NavbarGroup align="right">
 						<NavbarHeading><span>Role: </span>&nbsp;<span style={{ color: this.state.lightTheme ? Colors.TURQUOISE2 : Colors.TURQUOISE5 }}>Admin</span></NavbarHeading>
 						<span className="bp3-navbar-divider"></span>
-						{this.renderUserButton("admin", "user")}
+						{this.renderUserMenuButton("admin", "user")}
 						<Button className={Classes.MINIMAL} icon="help" text="Help" />
-						{this.renderMenuButton("", "menu")}
+						{this.renderMainMenuButton("", "menu")}
 					</NavbarGroup>
 				</Navbar>
+				{ this.testOverlay()}
 			</div>
 		)
 	}
 
-	renderUserButton(text, iconName) {
+	testOverlay() {
+
+		const aboutClasses = classNames(
+			Classes.CARD,
+			Classes.ELEVATION_4,
+			OVERLAY_EXAMPLE_CLASS,
+			//this.props.data.themeName,
+			Classes.LIGHT,
+			{ [OVERLAY_TALL_CLASS]: this.state.useTallContent },
+		);
+
+		return (
+			<Overlay onClose={this.handleAboutClose} className={Classes.OVERLAY_SCROLL_CONTAINER} usePortal="true" position="right"
+				isOpen={this.state.isAboutOpen} hasBackdrop="true" {...this.state}>
+
+				<div className={aboutClasses}> {/*  style={{ marginTop: "10px" }} */}
+					{ /*<About /> */}<About />
+					<div className={Classes.DIALOG_FOOTER_ACTIONS}>
+						<Button intent={Intent.PRIMARY} onClick={this.handleAboutClose} style={{ margin: "" }}>Close</Button>
+					</div>
+				</div>
+			</Overlay>
+		)
+	}
+
+	toggleTheme() {
+		this.setState({ lightTheme: !this.state.lightTheme });
+		//document.getElementById("headerDiv").className = isLightTheme ? "bp3-light" : "bp3.dark";
+	}
+
+	handleAboutOpen = () => this.setState({ isAboutOpen: true });
+
+	handleAboutClose = () => this.setState({ isAboutOpen: false, useTallContent: false });
+
+	renderUserMenuButton(text, iconName) {
 		const { vertical } = this.state;
 		const rightIconName = vertical ? "caret-right" : "caret-down";
 		const position = vertical ? Position.RIGHT_TOP : Position.BOTTOM_LEFT;
 		return (
-			<Popover content={<UserMenu />} position={position} minimal>
+			<Popover content={<UserMenu history={this.props.history} />} position={position} minimal>
 				<Button rightIcon={rightIconName} icon={iconName} text={text} />
 			</Popover>
 		);
 	}
 
-	renderMenuButton(text, iconName) {
+	renderMainMenuButton(text, iconName) {
 		const { vertical } = this.state;
 		//const rightIconName = vertical ? "caret-right" : "caret-down";
 		const position = vertical ? Position.RIGHT_TOP : Position.BOTTOM_LEFT;
 		return (
-			<Popover content={<MainMenu lightTheme={this.state.lightTheme} toggleTheme={this.toggleTheme} />} position={position} minimal>
+			<Popover content={<MainMenu lightTheme={this.state.lightTheme} toggleTheme={this.toggleTheme} history={this.props.history} aboutOpen={this.handleAboutOpen} />} position={position} minimal>
 				<Button icon={iconName} text={text} />
 			</Popover>
 		);
